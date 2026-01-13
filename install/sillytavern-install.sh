@@ -31,6 +31,10 @@ $STD npm install --no-save --no-audit --no-fund --omit=dev
 echo "${RELEASE}" > /opt/sillytavern_version.txt
 msg_ok "Installed SillyTavern v${RELEASE}"
 
+msg_info "Configuring Network Access"
+$STD sed -i '/- 127.0.0.1/a \  - 192.168.0.0/16\n  - 10.0.0.0/8\n  - 172.16.0.0/12\n  - fe80::/10' /opt/sillytavern/config.yaml
+msg_ok "Network Access Configured"
+
 msg_info "Creating Service"
 cat <<EOF >/etc/systemd/system/sillytavern.service
 [Unit]
@@ -40,7 +44,7 @@ After=network.target
 [Service]
 WorkingDirectory=/opt/sillytavern
 Environment=NODE_ENV=production
-ExecStart=/usr/bin/node server.js --dataRoot="/var/lib/sillytavern-data" --listen=true --whitelist=false
+ExecStart=/usr/bin/node server.js --dataRoot="/var/lib/sillytavern-data" --listen=true
 Restart=always
 User=root
 

@@ -27,14 +27,22 @@ function update_script() {
     exit
   fi
   RELEASE=$(curl -s https://api.github.com/repos/SillyTavern/SillyTavern/releases/latest | grep "tag_name" | awk '{print substr($2, 2, length($2)-3)}')
-  msg_info "Updating ${APP} to v${RELEASE}"
+  msg_info "Updating SillyTavern to v${RELEASE}"
   systemctl stop sillytavern
   fetch_and_deploy_gh_release "SillyTavern" "SillyTavern/SillyTavern" "tarball" "/opt/sillytavern"
   cd /opt/sillytavern
+
+  msg_info "Configuring Network Access"
+  sed -i '/- 127.0.0.1/a \  - 192.168.0.0/16\n  - 10.0.0.0/8\n  - 172.16.0.0/12\n  - fe80::/10' /opt/sillytavern/config.yaml
+  msg_ok "Network Access Configured"
+  
   msg_info "Updating Dependencies"
   export NODE_ENV=production
   $STD npm install --no-save --no-audit --no-fund --omit=dev
-  echo "${RELEASE}" > /opt/${APP}_version.txt
+  echo "${RELEASE}" > /opt/
+  
+  
+  SillyTavern_version.txt
   systemctl start sillytavern
   msg_ok "Updated Successfully to v${RELEASE}"
   exit
