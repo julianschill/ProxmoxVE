@@ -4,7 +4,7 @@
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 # Source: https://sillytavern.app/
 
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/julianschill/refs/heads/feature/sillytavern/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/julianschill/ProxmoxVE/refs/heads/feature/sillytavern/misc/build.func)
 
 APP="SillyTavern"
 var_tags="ai;interface;roleplay"
