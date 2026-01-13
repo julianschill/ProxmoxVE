@@ -40,7 +40,7 @@ After=network.target
 [Service]
 WorkingDirectory=/opt/sillytavern
 Environment=NODE_ENV=production
-ExecStart=/usr/bin/node server.js --dataRoot="/var/lib/sillytavern-data" --listen=true
+ExecStart=/usr/bin/node server.js --dataRoot="/var/lib/sillytavern-data" --listen=true --whitelist=false
 Restart=always
 User=root
 
