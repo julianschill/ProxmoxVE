@@ -33,9 +33,9 @@ function update_script() {
   cd /opt/sillytavern
 
   msg_info "Configuring Network Access"
-  sed -i '/- 127.0.0.1/a \  - 192.168.0.0/16\n  - 10.0.0.0/8\n  - 172.16.0.0/12\n  - fe80::/10' /opt/sillytavern/config.yaml
+  $STD sed -i '/^whitelist:/,/^[a-z]/ s|  - 127.0.0.1|  - 127.0.0.1\n  - 192.168.0.0/16\n  - 10.0.0.0/8\n  - 172.16.0.0/12\n  - fe80::/10|' /opt/sillytavern/config.yaml
   msg_ok "Network Access Configured"
-  
+
   msg_info "Updating Dependencies"
   export NODE_ENV=production
   $STD npm install --no-save --no-audit --no-fund --omit=dev
