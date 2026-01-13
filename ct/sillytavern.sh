@@ -4,7 +4,7 @@
 # License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 # Source: https://sillytavern.app/
 
-source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -fsSL https://raw.githubusercontent.com/community-scripts/julianschill/refs/heads/feature/sillytavern/misc/build.func)
 
 APP="SillyTavern"
 var_tags="ai;interface;roleplay"
@@ -29,7 +29,7 @@ function update_script() {
   RELEASE=$(curl -s https://api.github.com/repos/SillyTavern/SillyTavern/releases/latest | grep "tag_name" | awk '{print substr($2, 2, length($2)-3)}')
   msg_info "Updating ${APP} to v${RELEASE}"
   systemctl stop sillytavern
-  fetch_and_deploy_gh_release "SillyTavern" "SillyTavern/SillyTavern" "source" "latest" "/opt/sillytavern"
+  fetch_and_deploy_gh_release "SillyTavern" "SillyTavern/SillyTavern" "tarball" "/opt/sillytavern"
   cd /opt/sillytavern
   msg_info "Updating Dependencies"
   export NODE_ENV=production
