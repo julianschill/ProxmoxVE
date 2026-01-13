@@ -28,7 +28,7 @@ fetch_and_deploy_gh_release "SillyTavern" "SillyTavern/SillyTavern" "source" "la
 cd /opt/sillytavern
 export NODE_ENV=production
 $STD npm install --no-save --no-audit --no-fund --omit=dev
-echo "${RELEASE}" > /opt/${APP}_version.txt
+echo "${RELEASE}" > /opt/sillytavern_version.txt
 msg_ok "Installed SillyTavern v${RELEASE}"
 
 msg_info "Creating Service"
