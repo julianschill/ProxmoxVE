@@ -1,0 +1,30 @@
+{
+    "name": "SillyTavern",
+    "slug": "sillytavern",
+    "categories": [
+        14
+    ],
+    "date_created": "2026-01-12",
+    "type": "ct",
+    "updateable": true,
+    "privileged": false,
+    "interface_port": 8000,
+    "documentation": "https://docs.sillytavern.app/",
+    "website": "https://sillytavern.app/",
+    "logo": "https://cdn.jsdelivr.net/gh/SillyTavern/SillyTavern@master/public/img/apple-touch-icon.png",
+    "description": "SillyTavern is a local installable interface for various LLMs. It features advanced roleplay, character management, and persistent data storage separate from the application core.",
+    "config_path": "/var/lib/sillytavern-data",
+    "install_methods": [
+        {
+            "type": "default",
+            "script": "ct/sillytavern.sh",
+            "resources": {
+                "cpu": 2,
+                "ram": 2048,
+                "hdd": 4,
+                "os": "Debian",
+                "version": "13"
+            }
+        }
+    ]
+}
