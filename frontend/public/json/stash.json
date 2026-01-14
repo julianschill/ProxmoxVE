@@ -1,0 +1,40 @@
+{
+  "name": "Stash",
+  "slug": "stash",
+  "categories": [
+    14
+  ],
+  "date_created": "2026-01-15",
+  "type": "ct",
+  "updateable": true,
+  "privileged": false,
+  "interface_port": 9999,
+  "documentation": "https://docs.stashapp.cc/",
+  "config_path": "/var/lib/stash/config/config.yml",
+  "website": "https://stashapp.cc/",
+  "logo": "https://raw.githubusercontent.com/stashapp/stash/develop/ui/v2.1/src/assets/images/logo.png",
+  "description": "Stash is a self-hosted platform written in Go which organizes and serves your local video and image collections.",
+  "install_methods": [
+    {
+      "type": "default",
+      "script": "ct/stash.sh",
+      "resources": {
+        "cpu": 2,
+        "ram": 2048,
+        "hdd": 8,
+        "os": "Debian",
+        "version": "12"
+      }
+    }
+  ],
+  "default_credentials": {
+    "username": null,
+    "password": null
+  },
+  "notes": [
+    {
+      "text": "Stash requires FFmpeg for transcoding and thumbnail generation, which is included in this install.",
+      "type": "info"
+    }
+  ]
+}
