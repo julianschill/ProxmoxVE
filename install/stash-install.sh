@@ -25,7 +25,7 @@ msg_info "Downloading Stash"
 mkdir -p /opt/stash
 mkdir -p /var/lib/stash/{config,data,blobs}
 RELEASE=$(curl -s https://api.github.com/repos/stashapp/stash/releases/latest | grep "tag_name" | awk -F '"' '{print $4}')
-wget -q -O /opt/stash/stash "https://github.com/stashapp/stash/releases/download/${RELEASE}/stash-linux-amd64"
+wget -q -O /opt/stash/stash "https://github.com/stashapp/stash/releases/download/${RELEASE}/stash-linux"
 chmod +x /opt/stash/stash
 msg_ok "Downloaded Stash"
 
