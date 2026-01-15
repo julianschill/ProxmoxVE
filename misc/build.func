@@ -1001,7 +1001,7 @@ _build_vars_diff() {
 
 # Build a temporary <app>.vars file from current advanced settings
 _build_current_app_vars_tmp() {
-  tmpf="$(mktemp /tmp/"${NSAPP:-app}".vars.new.XXXXXX)"
+  tmpf="$(mktemp /tmp/${NSAPP:-app}.vars.new.XXXXXX)"
 
   # NET/GW
   _net="${NET:-}"
@@ -3432,7 +3432,7 @@ EOF'
       else
         msg_dev "Container ${CTID} kept for debugging"
       fi
-      exit "$install_exit_code"
+      exit $install_exit_code
     fi
 
     # Prompt user for cleanup with 60s timeout (plain echo - no msg_info to avoid spinner)
@@ -3470,7 +3470,7 @@ EOF'
       echo -e "${BFR}${CM}${GN}Container ${CTID} removed${CL}"
     fi
 
-    exit "$install_exit_code"
+    exit $install_exit_code
   fi
 }
 
@@ -3830,7 +3830,7 @@ create_lxc_container() {
         msg_ok "LXC stack upgraded."
         if [[ "$do_retry" == "yes" ]]; then
           msg_info "Retrying container creation after upgrade"
-          if pct create "$CTID" "${TEMPLATE_STORAGE}:vztmpl/${TEMPLATE}" "$PCT_OPTIONS" >>"$LOGFILE" 2>&1; then
+          if pct create "$CTID" "${TEMPLATE_STORAGE}:vztmpl/${TEMPLATE}" $PCT_OPTIONS >>"$LOGFILE" 2>&1; then
             msg_ok "Container created successfully after upgrade."
             return 0
           else
@@ -4051,7 +4051,7 @@ create_lxc_container() {
     fi
   fi
 
-  TEMPLATE_PATH="$(pvesm path "$TEMPLATE_STORAGE":vztmpl/"$TEMPLATE" 2>/dev/null || true)"
+  TEMPLATE_PATH="$(pvesm path $TEMPLATE_STORAGE:vztmpl/$TEMPLATE 2>/dev/null || true)"
   if [[ -z "$TEMPLATE_PATH" ]]; then
     TEMPLATE_BASE=$(awk -v s="$TEMPLATE_STORAGE" '$1==s {f=1} f && /path/ {print $2; exit}' /etc/pve/storage.cfg)
     [[ -n "$TEMPLATE_BASE" ]] && TEMPLATE_PATH="$TEMPLATE_BASE/template/cache/$TEMPLATE"
@@ -4115,7 +4115,7 @@ create_lxc_container() {
             TEMPLATE_SOURCE="online"
           fi
 
-          TEMPLATE_PATH="$(pvesm path "$TEMPLATE_STORAGE":vztmpl/"$TEMPLATE" 2>/dev/null || true)"
+          TEMPLATE_PATH="$(pvesm path $TEMPLATE_STORAGE:vztmpl/$TEMPLATE 2>/dev/null || true)"
           if [[ -z "$TEMPLATE_PATH" ]]; then
             TEMPLATE_BASE=$(awk -v s="$TEMPLATE_STORAGE" '$1==s {f=1} f && /path/ {print $2; exit}' /etc/pve/storage.cfg)
             [[ -n "$TEMPLATE_BASE" ]] && TEMPLATE_PATH="$TEMPLATE_BASE/template/cache/$TEMPLATE"
@@ -4252,7 +4252,7 @@ create_lxc_container() {
   msg_debug "Logfile: $LOGFILE"
 
   # First attempt (PCT_OPTIONS is a multi-line string, use it directly)
-  if ! pct create "$CTID" "${TEMPLATE_STORAGE}:vztmpl/${TEMPLATE}" "$PCT_OPTIONS" >"$LOGFILE" 2>&1; then
+  if ! pct create "$CTID" "${TEMPLATE_STORAGE}:vztmpl/${TEMPLATE}" $PCT_OPTIONS >"$LOGFILE" 2>&1; then
     msg_debug "Container creation failed on ${TEMPLATE_STORAGE}. Validating template..."
 
     # Validate template file
@@ -4271,7 +4271,7 @@ create_lxc_container() {
     fi
 
     # Retry after repair
-    if ! pct create "$CTID" "${TEMPLATE_STORAGE}:vztmpl/${TEMPLATE}" "$PCT_OPTIONS" >>"$LOGFILE" 2>&1; then
+    if ! pct create "$CTID" "${TEMPLATE_STORAGE}:vztmpl/${TEMPLATE}" $PCT_OPTIONS >>"$LOGFILE" 2>&1; then
       # Fallback to local storage if not already on local
       if [[ "$TEMPLATE_STORAGE" != "local" ]]; then
         msg_info "Retrying container creation with fallback to local storage..."
@@ -4280,7 +4280,7 @@ create_lxc_container() {
           msg_info "Downloading template to local..."
           pveam download local "$TEMPLATE" >/dev/null 2>&1
         fi
-        if ! pct create "$CTID" "local:vztmpl/${TEMPLATE}" "$PCT_OPTIONS" >>"$LOGFILE" 2>&1; then
+        if ! pct create "$CTID" "local:vztmpl/${TEMPLATE}" $PCT_OPTIONS >>"$LOGFILE" 2>&1; then
           # Local fallback also failed - check for LXC stack version issue
           if grep -qiE 'unsupported .* version' "$LOGFILE"; then
             echo
@@ -4304,7 +4304,7 @@ create_lxc_container() {
             msg_error "Container creation failed. See $LOGFILE"
             if whiptail --yesno "pct create failed.\nDo you want to enable verbose debug mode and view detailed logs?" 12 70; then
               set -x
-              pct create "$CTID" "local:vztmpl/${TEMPLATE}" "$PCT_OPTIONS" 2>&1 | tee -a "$LOGFILE"
+              pct create "$CTID" "local:vztmpl/${TEMPLATE}" $PCT_OPTIONS 2>&1 | tee -a "$LOGFILE"
               set +x
             fi
             exit 209
@@ -4336,7 +4336,7 @@ create_lxc_container() {
           msg_error "Container creation failed. See $LOGFILE"
           if whiptail --yesno "pct create failed.\nDo you want to enable verbose debug mode and view detailed logs?" 12 70; then
             set -x
-            pct create "$CTID" "local:vztmpl/${TEMPLATE}" "$PCT_OPTIONS" 2>&1 | tee -a "$LOGFILE"
+            pct create "$CTID" "local:vztmpl/${TEMPLATE}" $PCT_OPTIONS 2>&1 | tee -a "$LOGFILE"
             set +x
           fi
           exit 209
